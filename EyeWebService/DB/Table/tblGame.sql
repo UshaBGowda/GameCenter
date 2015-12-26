@@ -1,8 +1,9 @@
 CREATE TABLE tblGame
 (
 	gameId INT IDENTITY PRIMARY KEY,
-	descript VARCHAR(40) NOT NULL,
+	gameName VARCHAR(30) NOT NULL,
+	gameDescription VARCHAR(50),
 	therapyId INT NOT NULL,
-	FOREIGN KEY (therapyId) REFERENCES tblTherapy(therapyID),
+	FOREIGN KEY (therapyId) REFERENCES tblTherapy(therapyId),
 
 )

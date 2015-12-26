@@ -31,10 +31,10 @@ namespace EyeWebService
             string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
             int retVal = Int32.Parse(varParams[1].Value.ToString());
 
-                if (retVal == 1)
-                    return false;
-                else
-                    return true;
+            if (retVal == 1)
+                return false;
+            else
+                return true;
 
         }
 
@@ -118,7 +118,7 @@ namespace EyeWebService
                 if (retValNew == 1)
                     return false;
 
-                }
+            }
             return true;
 
         }
@@ -145,24 +145,24 @@ namespace EyeWebService
             if (retVal == 1)
                 return false;
 
-                SqlParameter[] varParamsNew = new SqlParameter[7];
+            SqlParameter[] varParamsNew = new SqlParameter[7];
 
-                varParamsNew[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
-                varParamsNew[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
-                varParamsNew[2] = new SqlParameter("@parentLogin", newPatient.parentLoginName);
-                varParamsNew[3] = new SqlParameter("@PatientFirstName",newPatient.firstName);
-                varParamsNew[4] = new SqlParameter("@patientLastName",newPatient.lastName);
-                varParamsNew[5] = new SqlParameter("@providerFirstName",newPatient.providerFirstName);
-                varParamsNew[6] = new SqlParameter("@providerLastName",newPatient.providerLastName);
+            varParamsNew[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
+            varParamsNew[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
+            varParamsNew[2] = new SqlParameter("@parentLogin", newPatient.parentLoginName);
+            varParamsNew[3] = new SqlParameter("@PatientFirstName", newPatient.firstName);
+            varParamsNew[4] = new SqlParameter("@patientLastName", newPatient.lastName);
+            varParamsNew[5] = new SqlParameter("@providerFirstName", newPatient.providerFirstName);
+            varParamsNew[6] = new SqlParameter("@providerLastName", newPatient.providerLastName);
 
-                DataTable dtNew = _dbConnect.RunProcedureGetDataTable("dbo.spSetParentXREF", varParamsNew);
-                string errorNew = varParamsNew[0].Value == DBNull.Value ? "" : varParamsNew[1].Value.ToString();
-                int retValNew = Int32.Parse(varParamsNew[1].Value.ToString());
+            DataTable dtNew = _dbConnect.RunProcedureGetDataTable("dbo.spSetParentXREF", varParamsNew);
+            string errorNew = varParamsNew[0].Value == DBNull.Value ? "" : varParamsNew[1].Value.ToString();
+            int retValNew = Int32.Parse(varParamsNew[1].Value.ToString());
 
-                if (retValNew == 1)
-                    return false;
-                else
-                   return true;
+            if (retValNew == 1)
+                return false;
+            else
+                return true;
 
         }
 
@@ -187,36 +187,36 @@ namespace EyeWebService
 
         public List<patient> listChildrenProfile(string parentLogin)
         {
-            List<patient> childrenList= new List<patient>();
+            List<patient> childrenList = new List<patient>();
             string errMsg = string.Empty;
 
             SqlParameter[] varParams = new SqlParameter[3];
             varParams[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
             varParams[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
             varParams[2] = new SqlParameter("@parentLogin", parentLogin);
-            
-                DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spListChildrenProfile", varParams);
-                string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
-                int retVal = Int32.Parse(varParams[1].Value.ToString());
-                foreach(DataRow dr in dt.Rows)
-                {
-                    patient newChild = new patient();
-                    newChild.firstName = dr["childFN"].ToString();
-                    newChild.lastName = dr["childLN"].ToString();
-                    newChild.dob = dr["childDOB"].ToString();
-                    newChild.gender = dr["childGender"].ToString();
-                    newChild.providerFirstName = dr["providerFN"].ToString();
-                    newChild.providerLastName = dr["providerLN"].ToString();
-                    childrenList.Add(newChild);
-                }
 
-                if (retVal == 1)
-                    return null;
-                else
-                    return childrenList;
+            DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spListChildrenProfile", varParams);
+            string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
+            int retVal = Int32.Parse(varParams[1].Value.ToString());
+            foreach (DataRow dr in dt.Rows)
+            {
+                patient newChild = new patient();
+                newChild.firstName = dr["childFN"].ToString();
+                newChild.lastName = dr["childLN"].ToString();
+                newChild.dob = dr["childDOB"].ToString();
+                newChild.gender = dr["childGender"].ToString();
+                newChild.providerFirstName = dr["providerFN"].ToString();
+                newChild.providerLastName = dr["providerLN"].ToString();
+                childrenList.Add(newChild);
             }
 
-        
+            if (retVal == 1)
+                return null;
+            else
+                return childrenList;
+        }
+
+
 
 
         public List<patient> listPatientsProfile(string providerLogin)
@@ -246,7 +246,103 @@ namespace EyeWebService
                 return null;
             else
                 return patientList;
+        }
+
+
+
+        public bool createUpdateTherapy(therapy newTherapy)
+        {
+            SqlParameter[] varParams = new SqlParameter[4];
+
+            varParams[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
+            varParams[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
+            varParams[2] = new SqlParameter("@therapyName", newTherapy.therapyName);
+            varParams[3] = new SqlParameter("@therapyDescription", newTherapy.therapyDescription);
+
+            DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spCreateUpdateTherapy", varParams);
+            string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
+            int retVal = Int32.Parse(varParams[1].Value.ToString());
+
+            if (retVal == 1)
+                return false;
+            else
+                return true;
+        }
+
+        public bool createUpdateGame(game newGame)
+        {
+            SqlParameter[] varParams = new SqlParameter[5];
+
+            varParams[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
+            varParams[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
+            varParams[2] = new SqlParameter("@gameName", newGame.gameName);
+            varParams[3] = new SqlParameter("@gameDescription", newGame.gameDescription);
+            varParams[4] = new SqlParameter("@therapyName", newGame.therapyName);
+
+            DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spCreateUpdateGame", varParams);
+            string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
+            int retVal = Int32.Parse(varParams[1].Value.ToString());
+
+            if (retVal == 1)
+                return false;
+            else
+                return true;
+        }
+
+
+        public List<therapy> listTherapy()
+        {
+            List<therapy> therapyList = new List<therapy>();
+            string errMsg = string.Empty;
+
+            SqlParameter[] varParams = new SqlParameter[2];
+            varParams[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
+            varParams[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
+
+            DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spListTherapy", varParams);
+            string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
+            int retVal = Int32.Parse(varParams[1].Value.ToString());
+            foreach (DataRow dr in dt.Rows)
+            {
+                therapy newTherapy = new therapy();
+                newTherapy.therapyName = dr["therapyName"].ToString();
+                newTherapy.therapyDescription = dr["therapyDescription"].ToString();
+                therapyList.Add(newTherapy);
             }
 
+            if (retVal == 1)
+                return null;
+            else
+                return therapyList;
         }
+
+        public List<game> listGameForTherapy(string therapyName)
+        {
+            List<game> gameList = new List<game>();
+            string errMsg = string.Empty;
+
+            SqlParameter[] varParams = new SqlParameter[3];
+            varParams[0] = _dbConnect.MakeParameter("Error_Message", ParameterDirection.Output, -1, string.Empty);
+            varParams[1] = _dbConnect.MakeParameter("Return_Code", ParameterDirection.ReturnValue, -1, 0);
+            varParams[2] = new SqlParameter("@therapyName", therapyName);
+
+            DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spListGameForTherapy", varParams);
+            string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
+            int retVal = Int32.Parse(varParams[1].Value.ToString());
+            foreach (DataRow dr in dt.Rows)
+            {
+                game newGame = new game();
+                newGame.gameName = dr["gameName"].ToString();
+                newGame.gameDescription = dr["gameDescription"].ToString();
+                gameList.Add(newGame);
+            }
+
+            if (retVal == 1)
+                return null;
+            else
+                return gameList;
+        }
+
+
     }
+}

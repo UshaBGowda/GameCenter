@@ -1,5 +1,9 @@
 CREATE TABLE tblTherapy
 (
-	therapyID INT IDENTITY PRIMARY KEY ,
-	descript VARCHAR(40) NOT NULL
+	therapyId INT IDENTITY PRIMARY KEY ,
+	therapyName VARCHAR(30) NOT NULL,
+	therapyDescription VARCHAR(50)
 )
+
+select * from tblTherapy;
+select * from tblGame;

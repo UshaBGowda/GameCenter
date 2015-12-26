@@ -62,10 +62,14 @@
     <Content Include="DB\Procedures\spAuthenticate.sql" />
     <Content Include="DB\Procedures\spCreateLogin.sql" />
     <Content Include="DB\Procedures\spCreateUpdateAddress.sql" />
+    <Content Include="DB\Procedures\spCreateUpdateGame.sql" />
+    <Content Include="DB\Procedures\spCreateUpdateTherapy.sql" />
     <Content Include="DB\Procedures\spCreateUpdateUser.sql" />
     <Content Include="DB\Procedures\spDeleteUser.sql" />
     <Content Include="DB\Procedures\spListChildrenProfile.sql" />
+    <Content Include="DB\Procedures\spListGameForTherapy.sql" />
     <Content Include="DB\Procedures\spListPatientsProfile.sql" />
+    <Content Include="DB\Procedures\spListTherapy.sql" />
     <Content Include="DB\Procedures\spSetParentXREF.sql" />
     <Content Include="DB\Procedures\spSetPassword.sql" />
     <Content Include="DB\Table\tblAddress.sql" />
@@ -86,8 +90,10 @@
     <Compile Include="EyeWebService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilClasses\Address.cs" />
+    <Compile Include="UtilClasses\game.cs" />
     <Compile Include="UtilClasses\Login.cs" />
     <Compile Include="UtilClasses\patient.cs" />
+    <Compile Include="UtilClasses\therapy.cs" />
     <Compile Include="UtilClasses\user.cs" />
     <Compile Include="Util\DBConnect.cs" />
   </ItemGroup>

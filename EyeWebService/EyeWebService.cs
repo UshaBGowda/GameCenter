@@ -32,13 +32,24 @@ namespace EyeWebService
         [OperationContract]
         bool setChildProfile(patient newPatient);
 
-       [OperationContract]
+        [OperationContract]
         List<patient> listChildrenProfile(string parentLogin);
 
         [OperationContract]
-       List<patient> listPatientsProfile(string providerLogin);
+        List<patient> listPatientsProfile(string providerLogin);
 
 
+        [OperationContract]
+        bool createUpdateTherapy(therapy newTherapy);
+
+        [OperationContract]
+        bool createUpdateGame(game newGame);
+
+        [OperationContract]
+        List<therapy> listTherapy();
+
+        [OperationContract]
+        List<game> listGameForTherapy(string therapyName);
         // TODO: Add your service operations here
     }
-    }
+}

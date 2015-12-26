@@ -33,7 +33,7 @@ namespace EyeWebService.UtilClasses
             }
         }
         public string gender { get; set; }
-        public string  providerFirstName { get; set; }
+        public string providerFirstName { get; set; }
         public string providerLastName { get; set; }
     }
 }
