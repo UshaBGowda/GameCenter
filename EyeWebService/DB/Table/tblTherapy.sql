@@ -1,0 +1,5 @@
+CREATE TABLE tblTherapy
+(
+	therapyID INT IDENTITY PRIMARY KEY ,
+	descript VARCHAR(40) NOT NULL
+)
