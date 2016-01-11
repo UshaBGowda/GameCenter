@@ -1,55 +1,114 @@
-﻿using EyeWebService.UtilClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
+using EyeWebService.UtilClasses;
 
+/// <summary>
+/// 
+/// </summary>
 namespace EyeWebService
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
+    /// <summary>
+    /// 
+    /// </summary>
     [ServiceContract]
     public interface EyeWebService
     {
 
+        /// <summary>
+        /// Sets the profile.
+        /// </summary>
+        /// <param name="newUser">The new user.</param>
+        /// <returns></returns>
         [OperationContract]
-        bool CreateLogin(Login newLogin);
+        bool SetProfile(user newUser);
+
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        /// <param name="loginId">The login identifier.</param>
+        /// <returns></returns>
+        [OperationContract]
+        int GetUserId(string loginId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        int GetUserTypeId(int userId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        List<Patient> ListChildrenProfile(int parentId);
+
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="patientId"></param>
+         /// <returns></returns>
+         [OperationContract]
+         Patient GetPatientProfile(int patientId);
+
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <returns></returns>
+         [OperationContract]
+         List<user> ListAllProviderProfile();
+
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="newPatient"></param>
+         /// <returns></returns>
+         [OperationContract]
+         Patient SetChildProfile(Patient newPatient);
+
+         [OperationContract]
+        List<Patient> ListPatientsProfile(int providerId);
+
+        
+        [OperationContract]
+        bool DeleteProfile(int userId);
+
 
         [OperationContract]
-        bool Authenticate(string username, string password);
+        int CreateUpdateTherapy(Therapy newTherapy);
 
         [OperationContract]
-        bool setPassword(string username, string password);
+        bool CreateUpdateGame(Game newGame);
 
         [OperationContract]
-        bool setProfile(user newUser);
+        List<Therapy> ListAllTherapy();
 
         [OperationContract]
-        bool deleteProfile(string firstName, string lastName);
+        List<Game> ListAllGamesForTherapy(int therapyId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        user GetUserProfile(int userId);
 
         [OperationContract]
-        bool setChildProfile(patient newPatient);
+        user GetParentProfile(int childId);
 
         [OperationContract]
-        List<patient> listChildrenProfile(string parentLogin);
+        user GetProviderProfile(int patientId);
 
         [OperationContract]
-        List<patient> listPatientsProfile(string providerLogin);
-
-
-        [OperationContract]
-        bool createUpdateTherapy(therapy newTherapy);
+        bool DeleteGame(int gameId);
 
         [OperationContract]
-        bool createUpdateGame(game newGame);
+        bool DeleteTherapy(int therapyId);
 
-        [OperationContract]
-        List<therapy> listTherapy();
-
-        [OperationContract]
-        List<game> listGameForTherapy(string therapyName);
         // TODO: Add your service operations here
     }
 }

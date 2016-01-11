@@ -7,11 +7,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 ALTER PROCEDURE [dbo].[spSetParentXREF](
-             @parentLogin  VARCHAR(12)
-			,@PatientFirstName        VARCHAR(30)
-			,@patientLastName        VARCHAR(30)
-			,@providerFirstName     VARCHAR(30)
-			,@providerLastName     VARCHAR(30)
+             @parentId  INT
+			,@PatientId INT
+			,@providerId INT
 			,@Debug            BIT = 0
 			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
@@ -22,9 +20,6 @@ BEGIN
      
       DECLARE @Return_Code           INT
             , @Object_Name           VARCHAR (256)
-			,@patientId INT
-			,@providerId INT
-			,@parentId INT
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
@@ -43,7 +38,7 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@parentLogin,'')='' or ISNULL(@PatientFirstName,'')='' or ISNULL(@patientLastName,'')='')
+                  IF (ISNULL(@parentId,'')='' or ISNULL(@PatientId,'')='' or ISNULL(@providerId,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1)               
             END TRY
 
@@ -65,17 +60,6 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-				IF NOT EXISTS(select userId FROM dbo.tblUser where LoginName=@parentLogin)
-				RAISERROR('Parent login does not exist', 16, 1) 
-				IF NOT EXISTS(select userId FROM dbo.tblUser where firstName=@PatientFirstName AND lastName=@patientLastName)
-				RAISERROR('Patient does not exist', 16, 1)
-				IF NOT EXISTS(select userId FROM dbo.tblUser where firstName=@providerFirstName AND lastName=@providerLastName)
-				RAISERROR('provider does not exist', 16, 1) 
-
-				select @parentId=userId FROM dbo.tblUser where LoginName=@parentLogin
-				select @patientId=userId FROM dbo.tblUser where firstName=@PatientFirstName AND lastName=@patientLastName
-				select @providerId=userId FROM dbo.tblUser where firstName=@providerFirstName AND lastName=@providerLastName
-
 				IF EXISTS(select * FROM dbo.tblParentXREF where parentId=@parentId AND patientId=@patientId)
 				BEGIN
 			     UPDATE dbo.tblParentXREF SET providerId=@providerId where parentId=@parentId AND patientId=@patientId;

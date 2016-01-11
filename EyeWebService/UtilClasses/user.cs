@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EyeWebService.UtilClasses
 {
     public class user
     {
-        public string loginName { get; set; }
+        public string loginId { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public string userType { get; set; }
+        public int userTypeId { get; set; }
+
+        public int userId { get; set; }
         private string dateOfBirth;
         public string dob
         {

@@ -8,13 +8,13 @@ GO
 
 ALTER PROCEDURE [dbo].[spCreateUpdateAddress](
 			 @addressType  VARCHAR(20)
-			,@loginName    VARCHAR(12)
+			,@loginId   nvarchar(128)
 			,@streetName   VARCHAR(20)
-			,@city        VARCHAR(10)
+			,@city        VARCHAR(20)
 			,@stateName   VARCHAR(10)
 			,@country    VARCHAR(15)
-			,@zipcode int
-			,@phoneNo int
+			,@zipcode VARCHAR(15)
+			,@phoneNo VARCHAR(20)
 			,@Debug            BIT = 0
 			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
@@ -43,7 +43,7 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@addressType,'')='' or ISNULL(@loginName,'')='')
+                  IF (ISNULL(@addressType,'')='' or ISNULL(@loginId,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1)               
             END TRY
 
@@ -65,13 +65,13 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-				IF EXISTS(select * FROM dbo.tblAddress where LoginName=@LoginName and addressType=@addressType)
+				IF EXISTS(select * FROM dbo.tblAddress where loginId=@loginId and addressType=@addressType)
 				BEGIN
-			     UPDATE dbo.tblAddress SET streetName=@streetName,city=@city,stateName=@stateName,country=@country,zipcode=@zipcode,@phoneNo=@phoneNo where loginName=@loginName and addressType=@addressType;
+			     UPDATE dbo.tblAddress SET streetName=@streetName,city=@city,stateName=@stateName,country=@country,zipcode=@zipcode,@phoneNo=@phoneNo where loginId=@loginId and addressType=@addressType;
                 END
 			    ELSE
 				BEGIN
-				INSERT INTO dbo.tblAddress(addressType,loginName,streetName,city,stateName,country,zipcode,phoneNo) values(@addressType,@loginName,@streetName,@city,@stateName,@country,@zipcode,@phoneNo);
+				INSERT INTO dbo.tblAddress(addressType,loginId,streetName,city,stateName,country,zipcode,phoneNo) values(@addressType,@loginId,@streetName,@city,@stateName,@country,@zipcode,@phoneNo);
 				END	       
 			
             

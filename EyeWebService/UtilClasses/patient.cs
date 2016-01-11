@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EyeWebService.UtilClasses
 {
-    public class patient
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Patient
     {
-        public string parentLoginName { get; set; }
+        public int patientId { get; set; }
+        public int parentId { get; set; }
+        public int providerId { get; set; }
+        
         public string firstName { get; set; }
         public string lastName { get; set; }
         private string dateOfBirth;
@@ -33,7 +36,5 @@ namespace EyeWebService.UtilClasses
             }
         }
         public string gender { get; set; }
-        public string providerFirstName { get; set; }
-        public string providerLastName { get; set; }
     }
 }

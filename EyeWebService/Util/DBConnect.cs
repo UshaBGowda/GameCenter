@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Web;
+using System.Threading;
 
 namespace EyeWebService
 {
@@ -67,7 +65,7 @@ namespace EyeWebService
         ///-----------------------------------------------------------------------------
         public DataTable RunProcedureGetDataTable(string procedureName, params SqlParameter[] parameters)
         {
-            return (DataTable)RunDbCommandImpl(procedureName, CommandType.StoredProcedure, parameters, new DbExecutor(ExecuteDataTable));
+            return (DataTable)RunDbCommandImpl(procedureName, CommandType.StoredProcedure, parameters, ExecuteDataTable);
         }
 
 
@@ -228,7 +226,7 @@ namespace EyeWebService
                     if (numLockErrors < MAX_DEADLOCK_RETRIES)
                     {
                         numLockErrors++;
-                        System.Threading.Thread.Sleep(LOCK_WAIT_MILLIS);
+                        Thread.Sleep(LOCK_WAIT_MILLIS);
                         goto RunSp;
                     }
                     else
@@ -309,7 +307,7 @@ namespace EyeWebService
                 }
                 else
                 {
-                    builder.Append(parameter.Value.ToString());
+                    builder.Append(parameter.Value);
                 }
                 builder.Append("' ");
             }

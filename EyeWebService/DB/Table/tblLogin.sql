@@ -30,5 +30,5 @@ CREATE TABLE tblLogin
 --DROP TABLE tblAddress;
 --DROP TABLE tblLogin;
 
-select * from tblLogin;
-delete from tblLogin;
+--select * from tblLogin;
+--delete from tblLogin;

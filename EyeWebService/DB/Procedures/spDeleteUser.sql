@@ -8,8 +8,7 @@ GO
 
 ALTER PROCEDURE [dbo].[spDeleteUser](
 
-			  @firstName        VARCHAR(30)
-			, @lastname			VARCHAR(30)
+			  @userId        INT
 			, @Debug            BIT = 0
 			, @Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
@@ -19,9 +18,8 @@ BEGIN
 
      
       DECLARE @Return_Code INT
-	         ,@userId     INT
-			 ,@userType VARCHAR(30)
-			 ,@loginName VARCHAR(12)
+			 ,@userTypeId INT
+			 ,@loginId nVARCHAR(128)
             , @Object_Name VARCHAR (256)
       
       -- =============================================================================================================================================== --
@@ -41,9 +39,9 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@firstName,'')='' or ISNULL(@lastname,'')='')
+                  IF (ISNULL(@userId,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1) 
-				  IF NOT EXISTS(select * FROM dbo.tblUser where firstName=@firstName and lastName=@lastName)   
+				  IF NOT EXISTS(select * FROM dbo.tblUser where userId=@userId)  
 					      RAISERROR('user does not exist', 16, 1)                 
             END TRY
 
@@ -67,19 +65,19 @@ BEGIN
             BEGIN TRY
 
 
-				SELECT @userId=userId,@userType=userType,@loginName=loginName FROM dbo.tblUser where firstName=@firstName and lastName=@lastName;
+				SELECT @userTypeId=userTypeId,@loginId=loginId FROM dbo.tblUser where userId=@userId;
 
-				IF(@userType='Parent')
+				IF(@userTypeId=2)
 				BEGIN
 				DELETE FROM tblParentXREF WHERE parentId=@userId;
-			    DELETE FROM tblLogin WHERE LoginName=@loginName;
-				DELETE FROM tblAddress WHERE LoginName=@loginName;
+			    DELETE FROM AspNetUsers WHERE Id=@loginId;
+				DELETE FROM tblAddress WHERE loginId=@loginId;
 				END
-				ELSE IF(@userType='Doctor')
+				ELSE IF(@userTypeId=1)
 				BEGIN
 				DELETE FROM tblParentXREF WHERE providerId=@userId;
-				DELETE FROM tblLogin WHERE LoginName=@loginName;
-				DELETE FROM tblAddress WHERE LoginName=@loginName;
+				DELETE FROM AspNetUsers WHERE Id=@loginId;
+				DELETE FROM tblAddress WHERE loginId=@loginId;
 				END
 				ELSE
 				BEGIN

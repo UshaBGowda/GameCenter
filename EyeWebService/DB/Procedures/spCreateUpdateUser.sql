@@ -10,8 +10,9 @@ ALTER PROCEDURE [dbo].[spCreateUpdateUser](
 
 			 @firstName        VARCHAR(30)
 			,@lastName        VARCHAR(30)
-			,@loginName        VARCHAR(12)
-			,@userType        VARCHAR(30)
+			,@loginId        nvarchar(128) = NULL
+			,@userId        int = 0 OUTPUT
+			,@userTypeId     INT
 			,@dateOfBirth DATE
 	        ,@gender char
 			,@Debug            BIT = 0
@@ -42,7 +43,7 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@firstName,'')='' or ISNULL(@lastName,'')='' or ISNULL(@loginName,'')='')
+                  IF (ISNULL(@firstName,'')='' or ISNULL(@lastName,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1)               
             END TRY
 
@@ -64,13 +65,14 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-				IF EXISTS(select * FROM dbo.tblUser where LoginName=@LoginName)
+				IF EXISTS(select * FROM dbo.tblUser where userId=@userId)
 				BEGIN
-			     UPDATE dbo.tblUser SET firstName=@firstName,lastName=@lastName,userType=@userType,dateOfBirth=@dateOfBirth,gender=@gender where loginName=@loginName;
+					UPDATE dbo.tblUser SET firstName=@firstName,lastName=@lastName,userTypeId=@userTypeId,dateOfBirth=@dateOfBirth,gender=@gender where userId=@userId;
                 END
 			    ELSE
 				BEGIN
-				INSERT INTO dbo.tblUser(firstName,lastName,loginName,userType,dateOfBirth,gender) values(@firstName,@lastName,@loginName,@userType,@dateOfBirth,@gender);
+					INSERT INTO dbo.tblUser(firstName,lastName,loginId,userTypeId,dateOfBirth,gender) values(@firstName,@lastName,@loginId,@userTypeId,@dateOfBirth,@gender);
+					SET @userId = @@IDENTITY;
 				END	       
 			
             

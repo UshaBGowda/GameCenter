@@ -6,8 +6,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[spListPatientsProfile](
-             @providerLogin  VARCHAR(12)
+ALTER PROCEDURE [dbo].[spListPatientsProfile](
+             @providerId  INT
 			,@Debug            BIT = 0
 			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
@@ -18,7 +18,6 @@ BEGIN
      
       DECLARE @Return_Code           INT
             , @Object_Name           VARCHAR (256)
-			,@providerId     INT
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
@@ -37,7 +36,7 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@providerLogin,'')='')
+                  IF (ISNULL(@providerId,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1)               
             END TRY
 
@@ -60,9 +59,9 @@ BEGIN
                               
             BEGIN TRY
 
-				select @providerId=userId FROM dbo.tblUser where LoginName=@providerLogin
-
-				select A.firstName as childFN,A.lastName as childLN,A.dateOfBirth as childDOB,A.gender as childGender from dbo.tblUser A 
+				select A.userId as patientId,B.parentId as parentId,B.providerId as providerId,
+				A.firstName as childFN,A.lastName as childLN,A.dateOfBirth as childDOB,A.gender as childGender 
+				from dbo.tblUser A 
 				JOIN dbo.tblParentXREF B ON A.userId=B.patientId where B.providerId=@providerId
             
             END TRY

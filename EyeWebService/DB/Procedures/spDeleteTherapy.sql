@@ -1,31 +1,15 @@
 USE EYE_Database
 GO
-/****** Object:  StoredProcedure [dbo].[spListChildrenProfile]    Script Date: 12/23/2015 1:23:44 PM ******/
-
---DECLARE @RC int
---DECLARE @userId int
---DECLARE @Debug bit
---DECLARE @Error_Message varchar(1024)
-
----- TODO: Set parameter values here.
---SET @userId = 1
---SET @Debug =0 
-
---EXECUTE @RC = [dbo].[spListChildrenProfile] 
---   @userId
---  ,@Debug
---  ,@Error_Message OUTPUT
---GO
-
+/****** Object:  StoredProcedure [dbo].[spDeleteTherapy]    Script Date: 12/23/2015 1:23:44 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[spListChildrenProfile](
-             @userId  INT
-			,@Debug            BIT = 0
-			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
+ALTER PROCEDURE [dbo].[spDeleteTherapy](
+			 @therapyId        INT
+			, @Debug            BIT = 0
+			, @Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
 AS
 
@@ -34,7 +18,6 @@ BEGIN
      
       DECLARE @Return_Code           INT
             , @Object_Name           VARCHAR (256)
-			,@parentId     INT
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
@@ -43,7 +26,7 @@ BEGIN
       -- =============================================================================================================================================== --
       
       SET @Return_Code                = 0
-      SET @Object_Name                = 'List children profile-- : --'
+      SET @Object_Name                = 'Delete therapy-- : --'
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
@@ -53,8 +36,8 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@userId,'')='')
-				       RAISERROR('Invalid/empty Input.', 16, 1)               
+                  IF (ISNULL(@therapyId,'')='')
+				       RAISERROR('Invalid/empty Input.', 16, 1)      
             END TRY
 
             
@@ -75,10 +58,11 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-
-				select A.userId as patientId,B.providerId as providerId,B.parentId as parentId,A.firstName as childFN,A.lastName as childLN,A.dateOfBirth as childDOB,A.gender as childGender,C.firstName as providerFN,C.lastName as providerLN from dbo.tblUser A 
-				JOIN dbo.tblParentXREF B ON A.userId=B.patientId 
-				JOIN dbo.tblUser C ON B.providerId=C.userId where B.parentId=@userId;
+			 
+				BEGIN
+			    DELETE FROM dbo.tblGame WHERE therapyId=@therapyId;
+				DELETE FROM dbo.tblTherapy WHERE therapyId=@therapyId;
+                END
             
             END TRY
 
@@ -103,4 +87,4 @@ BEGIN
 
 END
 
-GRANT EXECUTE ON dbo.[spListChildrenProfile] TO dbExecutor
+GRANT EXECUTE ON dbo.[spDeleteTherapy] TO dbExecutor

@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\EyeWebService.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,7 +40,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -65,10 +74,19 @@
     <Content Include="DB\Procedures\spCreateUpdateGame.sql" />
     <Content Include="DB\Procedures\spCreateUpdateTherapy.sql" />
     <Content Include="DB\Procedures\spCreateUpdateUser.sql" />
+    <Content Include="DB\Procedures\spDeleteGameForTherapy.sql" />
+    <Content Include="DB\Procedures\spDeleteTherapy.sql" />
     <Content Include="DB\Procedures\spDeleteUser.sql" />
+    <Content Include="DB\Procedures\spGetPatientProfile.sql" />
+    <Content Include="DB\Procedures\spGetProviderName.sql" />
+    <Content Include="DB\Procedures\spGetUserAddress.sql" />
+    <Content Include="DB\Procedures\spGetUserId.sql" />
+    <Content Include="DB\Procedures\spGetUserProfile.sql" />
+    <Content Include="DB\Procedures\spGetUserTypeId.sql" />
     <Content Include="DB\Procedures\spListChildrenProfile.sql" />
     <Content Include="DB\Procedures\spListGameForTherapy.sql" />
     <Content Include="DB\Procedures\spListPatientsProfile.sql" />
+    <Content Include="DB\Procedures\spListProviderProfiles.sql" />
     <Content Include="DB\Procedures\spListTherapy.sql" />
     <Content Include="DB\Procedures\spSetParentXREF.sql" />
     <Content Include="DB\Procedures\spSetPassword.sql" />
@@ -80,6 +98,7 @@
     <Content Include="DB\Table\tblPatientXREFGame.sql" />
     <Content Include="DB\Table\tblTherapy.sql" />
     <Content Include="DB\Table\tblUser.sql" />
+    <Content Include="DB\Table\tblUserType.sql" />
     <Content Include="EyeWebService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -88,11 +107,50 @@
       <DependentUpon>EyeWebService.svc</DependentUpon>
     </Compile>
     <Compile Include="EyeWebService.cs" />
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EyeDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EyeDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EyeDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EyeDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EyeDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblAddress.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblGame.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLogin.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblParentXREF.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblTherapy.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblUser.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblUserType.cs">
+      <DependentUpon>EyeDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilClasses\Address.cs" />
     <Compile Include="UtilClasses\game.cs" />
-    <Compile Include="UtilClasses\Login.cs" />
     <Compile Include="UtilClasses\patient.cs" />
+    <Compile Include="UtilClasses\PatientXREFGame.cs" />
     <Compile Include="UtilClasses\therapy.cs" />
     <Compile Include="UtilClasses\user.cs" />
     <Compile Include="Util\DBConnect.cs" />
@@ -101,12 +159,33 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
+    <EntityDeploy Include="Models\EyeDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EyeDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EyeDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EyeDB.edmx</DependentUpon>
+      <LastGenOutput>EyeDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EyeDB.edmx.diagram">
+      <DependentUpon>EyeDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\EyeDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EyeDB.edmx</DependentUpon>
+      <LastGenOutput>EyeDB.cs</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

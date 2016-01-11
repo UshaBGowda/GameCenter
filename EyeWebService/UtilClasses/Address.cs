@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EyeWebService.UtilClasses
+﻿namespace EyeWebService.UtilClasses
 {
     public class Address
     {
@@ -12,7 +7,7 @@ namespace EyeWebService.UtilClasses
         public string city { get; set; }
         public string stateName { get; set; }
         public string country { get; set; }
-        public int zipcode { get; set; }
-        public int phoneNo { get; set; }
+        public string zipcode { get; set; }
+        public string phoneNo { get; set; }
     }
 }

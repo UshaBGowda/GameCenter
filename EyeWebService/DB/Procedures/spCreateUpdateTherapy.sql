@@ -7,8 +7,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 ALTER PROCEDURE [dbo].[spCreateUpdateTherapy](
-
-			  @therapyName        VARCHAR(30)
+              @therapyId int = 0 OUTPUT
+			 ,@therapyName        VARCHAR(30)
 			, @therapyDescription VARCHAR(50)
 			, @Debug            BIT = 0
 			, @Error_Message    VARCHAR (1024) = NULL OUTPUT)
@@ -61,13 +61,14 @@ BEGIN
                               
             BEGIN TRY
 
-				IF EXISTS(select * FROM dbo.tblTherapy where therapyName=@therapyName)
+				IF EXISTS(select * FROM dbo.tblTherapy where therapyId=@therapyId)
 				BEGIN
-			    UPDATE dbo.tblTherapy SET therapyName=@therapyName,therapyDescription=@therapyDescription where therapyName=@therapyName;
+			    UPDATE dbo.tblTherapy SET therapyName=@therapyName,therapyDescription=@therapyDescription where therapyId=@therapyId;
                 END
 			    ELSE
 				BEGIN
 				INSERT INTO dbo.tblTherapy(therapyName,therapyDescription) values(@therapyName,@therapyDescription);
+				SET @therapyId = @@IDENTITY;
 				END	
             
             END TRY
