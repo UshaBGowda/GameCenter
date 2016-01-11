@@ -5,7 +5,7 @@ CREATE TABLE tblUser
 	firstName VARCHAR(30) NOT NULL,
 	lastName VARCHAR(30) NOT NULL,
 	userTypeId INT NOT NULL,
-	dateOfBirth DATETIME,
+	dateOfBirth DATE,
 	gender char(1)--,
 	--FOREIGN KEY (loginId) REFERENCES [dbo].[AspNetUsers](Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	--FOREIGN KEY (userTypeId) REFERENCES dbo.tblUserType(userTypeId) ON DELETE CASCADE ON UPDATE CASCADE

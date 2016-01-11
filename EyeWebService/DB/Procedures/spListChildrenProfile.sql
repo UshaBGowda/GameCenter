@@ -76,7 +76,7 @@ BEGIN
                               
             BEGIN TRY
 
-				select A.userId as patientId,B.providerId as providerId,B.parentId as parentId,A.firstName as childFN,A.lastName as childLN,A.dateOfBirth as childDOB,A.gender as childGender,C.firstName as providerFN,C.lastName as providerLN from dbo.tblUser A 
+				select A.userId as patientId,B.providerId as providerId,B.parentId as parentId,A.firstName as childFN,A.lastName as childLN,convert(varchar(10), cast(A.dateOfBirth as date), 101)  as childDOB,A.gender as childGender,C.firstName as providerFN,C.lastName as providerLN from dbo.tblUser A 
 				JOIN dbo.tblParentXREF B ON A.userId=B.patientId 
 				JOIN dbo.tblUser C ON B.providerId=C.userId where B.parentId=@userId;
             
