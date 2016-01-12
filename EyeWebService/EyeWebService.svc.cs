@@ -437,7 +437,7 @@ namespace EyeWebService
             }
         }
 
-        public bool CreateUpdateGame(Game newGame)
+        public int CreateUpdateGame(Game newGame)
         {
             SqlParameter[] varParams = new SqlParameter[6];
 
@@ -451,10 +451,23 @@ namespace EyeWebService
             DataTable dt = _dbConnect.RunProcedureGetDataTable("dbo.spCreateUpdateGame", varParams);
             string error = varParams[0].Value == DBNull.Value ? "" : varParams[1].Value.ToString();
             int retVal = Int32.Parse(varParams[1].Value.ToString());
+            var dr = dt.Rows[0];
+            var game = new Game
+            {
+                therapyId = int.Parse(dr["therapyId"].ToString()),
+                gameId = int.Parse(dr["gameId"].ToString()),
+                gameName = dr["gameName"].ToString(),
+                gameDescription = dr["gameDescription"].ToString()
+            };
 
-            if (retVal == 1)
-                return false;
-            return true;
+
+            switch (retVal)
+            {
+                case 1:
+                    return -1;
+                default:
+                    return game.gameId;
+            }
         }
 
        public bool DeleteGame(int gameId)

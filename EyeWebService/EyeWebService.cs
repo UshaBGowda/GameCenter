@@ -76,19 +76,6 @@ namespace EyeWebService
         [OperationContract]
         bool DeleteProfile(int userId);
 
-
-        [OperationContract]
-        int CreateUpdateTherapy(Therapy newTherapy);
-
-        [OperationContract]
-        bool CreateUpdateGame(Game newGame);
-
-        [OperationContract]
-        List<Therapy> ListAllTherapy();
-
-        [OperationContract]
-        List<Game> ListAllGamesForTherapy(int therapyId);
-
         /// <summary>
         /// 
         /// </summary>
@@ -102,6 +89,19 @@ namespace EyeWebService
 
         [OperationContract]
         user GetProviderProfile(int patientId);
+
+
+        [OperationContract]
+        int CreateUpdateTherapy(Therapy newTherapy);
+
+        [OperationContract]
+        int CreateUpdateGame(Game newGame);
+
+        [OperationContract]
+        List<Therapy> ListAllTherapy();
+
+        [OperationContract]
+        List<Game> ListAllGamesForTherapy(int therapyId);
 
         [OperationContract]
         bool DeleteGame(int gameId);

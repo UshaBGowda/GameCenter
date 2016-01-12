@@ -7,7 +7,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 ALTER PROCEDURE [dbo].[spListGameForTherapy](
-             @therapyName  VARCHAR(30)
+             @therapyId  int
 			,@Debug            BIT = 0
 			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
@@ -18,7 +18,6 @@ BEGIN
      
       DECLARE @Return_Code           INT
             , @Object_Name           VARCHAR (256)
-			,@therapyId     INT
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
@@ -37,7 +36,7 @@ BEGIN
       
 
             BEGIN TRY              
-                  IF (ISNULL(@therapyName,'')='')
+                  IF (ISNULL(@therapyId,'')='')
 				       RAISERROR('Invalid/empty Input.', 16, 1)               
             END TRY
 
@@ -59,8 +58,6 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-
-				select @therapyId=therapyId FROM dbo.tbltherapy where therapyName=@therapyName
 				select * from tblGame where therapyId=@therapyId
             
             END TRY

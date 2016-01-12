@@ -149,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilClasses\Address.cs" />
     <Compile Include="UtilClasses\game.cs" />
+    <Compile Include="UtilClasses\gameScore.cs" />
     <Compile Include="UtilClasses\patient.cs" />
     <Compile Include="UtilClasses\PatientXREFGame.cs" />
     <Compile Include="UtilClasses\therapy.cs" />
