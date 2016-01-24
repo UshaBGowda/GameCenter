@@ -1,18 +1,20 @@
-USE EYE_Database
+﻿USE EYE_Database
 GO
-/****** Object:  StoredProcedure [dbo].[[spCreateUpdateGame]]    Script Date: 12/23/2015 1:23:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[spAddGameAssignment]    Script Date: 12/23/2015 1:23:44 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[spCreateUpdateGame](
-              @gameId  int = 0 OUTPUT
-			  ,@gameName        VARCHAR(30)
-			 ,@therapyId       INT
-			, @gameDescription VARCHAR(50)
-			, @Debug            BIT = 0
-			, @Error_Message    VARCHAR (1024) = NULL OUTPUT)
+CREATE PROCEDURE [dbo].[spAddGameAssignment](
+
+			 @patientId        INT
+			,@gameId        INT
+			,@level        INT
+			,@startDate  DATE
+			,@endDate  DATE
+			,@Debug            BIT = 0
+			,@Error_Message    VARCHAR (1024) = NULL OUTPUT)
     
 AS
 
@@ -29,14 +31,13 @@ BEGIN
       -- =============================================================================================================================================== --
       
       SET @Return_Code                = 0
-      SET @Object_Name                = 'Create or update game-- : --'
+      SET @Object_Name                = 'Add game assignment-- : --'
       
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
       --                                                                                        V A L I D A T I O N S                                                   --
       --                                                                                                                                                 --
-      -- =============================================================================================================================================== --
-  
+      -- =============================================================================================================================================== -- 
       -- =============================================================================================================================================== --
       --                                                                                                                                                 --
       --                                                        U P D A T I O N S                                                   --
@@ -45,28 +46,10 @@ BEGIN
       BEGIN TRANSACTION
                               
             BEGIN TRY
-
-				IF EXISTS(select * FROM dbo.tblGame where gameId=@gameId)
 				BEGIN
-			    UPDATE dbo.tblGame SET gameName=@gameName,gameDescription=@gameDescription,therapyId=@therapyId where gameId=@gameId;
-                END
-			    ELSE
-				BEGIN
-				INSERT INTO dbo.tblGame(gameName,gameDescription,therapyId) values(@gameName,@gameDescription,@therapyId);
-				SET @gameId = @@IDENTITY;
-				END	
-
-				select 
-					A.gameId,
-					A.gameName,
-					A.gameDescription,
-					A.therapyId,
-					B.therapyDescription,
-					B.therapyName
-				FROM dbo.tblGame A 
-				Inner Join dbo.tblTherapy B
-				on A.therapyId= b.therapyId
-				 where A.gameId=@gameId
+					INSERT INTO dbo.tblPatientGameXREF(patientId,gameId,level,startDate,endDate) values(@patientId,@gameId,@level,@startDate,@endDate);
+				END	       
+			
             
             END TRY
 
@@ -91,4 +74,4 @@ BEGIN
 
 END
 
-GRANT EXECUTE ON dbo.[spCreateUpdateGame] TO dbExecutor
+GRANT EXECUTE ON dbo.[spAddGameAssignment] TO dbExecutor

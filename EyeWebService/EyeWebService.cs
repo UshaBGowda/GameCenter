@@ -92,10 +92,10 @@ namespace EyeWebService
 
 
         [OperationContract]
-        int CreateUpdateTherapy(Therapy newTherapy);
+        bool CreateUpdateTherapy(Therapy newTherapy);
 
         [OperationContract]
-        int CreateUpdateGame(Game newGame);
+        Game CreateUpdateGame(Game newGame);
 
         [OperationContract]
         List<Therapy> ListAllTherapy();
@@ -108,6 +108,32 @@ namespace EyeWebService
 
         [OperationContract]
         bool DeleteTherapy(int therapyId);
+
+         [OperationContract]
+        PatientGameScore ListGameScoresForPatient(PatientGameScore patientGameScore);
+
+        [OperationContract]
+        PatientGames ListGameAssignment(int patientId);
+
+      [OperationContract]
+      bool SetGameAssignment(PatientGames patientGames);
+
+      [OperationContract]
+      bool DeleteGameAssignment(PatientGames patientGames);
+
+        //[OperationContract]
+        //List<GameScore> ListAllScoresForPatient(user user);
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="patientGames"></param>
+        ///// <returns></returns>
+        //[OperationContract]
+        //List<GameScore> ListScoresForPatientGame(PatientGames patientGames);
+
+        //[OperationContract]
+        //List<GameScore> ListGameScores(int gameId, int level);
 
         // TODO: Add your service operations here
     }

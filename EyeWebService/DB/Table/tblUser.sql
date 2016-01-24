@@ -10,9 +10,3 @@ CREATE TABLE tblUser
 	--FOREIGN KEY (loginId) REFERENCES [dbo].[AspNetUsers](Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	--FOREIGN KEY (userTypeId) REFERENCES dbo.tblUserType(userTypeId) ON DELETE CASCADE ON UPDATE CASCADE
 )
-
---DROP TABLE tblUser
---DROP table tblParentXREF;
-
---select * from tblGame;
---select * from tblTherapy;

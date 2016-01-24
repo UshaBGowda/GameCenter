@@ -5,10 +5,11 @@ using System.Web;
 
 namespace EyeWebService.UtilClasses
 {
-    public class gameScore
+    public class GameScore
     {
-        public int gameId { get; set; }
-        public int therapyId { get; set; }
-        public string gameName { get; set; }
+        public string datePlayed { get; set; }
+        public TimeSpan durationInMin { get; set; }
+        public int score { get; set; }
+
     }
 }

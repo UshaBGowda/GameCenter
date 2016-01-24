@@ -68,15 +68,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DB\Procedures\spAddGameAssignment.sql" />
     <Content Include="DB\Procedures\spAuthenticate.sql" />
     <Content Include="DB\Procedures\spCreateLogin.sql" />
     <Content Include="DB\Procedures\spCreateUpdateAddress.sql" />
     <Content Include="DB\Procedures\spCreateUpdateGame.sql" />
     <Content Include="DB\Procedures\spCreateUpdateTherapy.sql" />
     <Content Include="DB\Procedures\spCreateUpdateUser.sql" />
+    <Content Include="DB\Procedures\spDeleteGameAssignment.sql" />
     <Content Include="DB\Procedures\spDeleteGameForTherapy.sql" />
     <Content Include="DB\Procedures\spDeleteTherapy.sql" />
     <Content Include="DB\Procedures\spDeleteUser.sql" />
+    <Content Include="DB\Procedures\spGetGameScores.sql" />
     <Content Include="DB\Procedures\spGetPatientProfile.sql" />
     <Content Include="DB\Procedures\spGetProviderName.sql" />
     <Content Include="DB\Procedures\spGetUserAddress.sql" />
@@ -84,6 +87,7 @@
     <Content Include="DB\Procedures\spGetUserProfile.sql" />
     <Content Include="DB\Procedures\spGetUserTypeId.sql" />
     <Content Include="DB\Procedures\spListChildrenProfile.sql" />
+    <Content Include="DB\Procedures\spListGameAssignment.sql" />
     <Content Include="DB\Procedures\spListGameForTherapy.sql" />
     <Content Include="DB\Procedures\spListPatientsProfile.sql" />
     <Content Include="DB\Procedures\spListProviderProfiles.sql" />
@@ -93,6 +97,7 @@
     <Content Include="DB\Table\tblAddress.sql" />
     <Content Include="DB\Table\tblGame.sql" />
     <Content Include="DB\Table\tblGameScore.sql" />
+    <Content Include="DB\Table\tblGender.sql" />
     <Content Include="DB\Table\tblLogin.sql" />
     <Content Include="DB\Table\tblPatientXREF.sql" />
     <Content Include="DB\Table\tblPatientXREFGame.sql" />
@@ -150,8 +155,11 @@
     <Compile Include="UtilClasses\Address.cs" />
     <Compile Include="UtilClasses\game.cs" />
     <Compile Include="UtilClasses\gameScore.cs" />
+    <Compile Include="UtilClasses\Gender.cs" />
     <Compile Include="UtilClasses\patient.cs" />
-    <Compile Include="UtilClasses\PatientXREFGame.cs" />
+    <Compile Include="UtilClasses\PatientGames.cs" />
+    <Compile Include="UtilClasses\GameAssignment.cs" />
+    <Compile Include="UtilClasses\PatientGameScore.cs" />
     <Compile Include="UtilClasses\therapy.cs" />
     <Compile Include="UtilClasses\user.cs" />
     <Compile Include="Util\DBConnect.cs" />

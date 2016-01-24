@@ -1,0 +1,5 @@
+CREATE TABLE tblGender
+(
+	Id VARCHAR(5) NOT NULL,
+	Name VARCHAR(30) NOT NULL
+)
